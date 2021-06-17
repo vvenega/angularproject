@@ -26,21 +26,21 @@
 
 		<aside class="col-sm-3">
 			<!-- <div class="img-wrap"><img src="/assets/images/items/2.jpg"></div>-->
-			 <div class="img-wrap"><img src="{{listing.thumbnailimage}}"></div>
+			 <div class="img-wrap"><img src="{{listing.thumbnailimage}}" alt="Producto en lista"></div>
 		</aside> <!-- col.// -->
 		<article class="col-sm-6">
 				<h4 class="elmtitulo"> {{listing.name}} </h4>
 				<div class="rating-wrap  mb-2">
 					<ul class="rating-stars">
 						<li style="width:80%" class="stars-active">
-							<i class="fa fa-star"></i> <i class="fa fa-star"></i>
-							<i class="fa fa-star"></i> <i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
+							<em class="fa fa-star"></em> <em class="fa fa-star"></em>
+							<em class="fa fa-star"></em> <em class="fa fa-star"></em>
+							<em class="fa fa-star"></em>
 						</li>
 						<li>
-							<i class="fa fa-star"></i> <i class="fa fa-star"></i>
-							<i class="fa fa-star"></i> <i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
+							<em class="fa fa-star"></em> <em class="fa fa-star"></em>
+							<em class="fa fa-star"></em> <em class="fa fa-star"></em>
+							<em class="fa fa-star"></em>
 						</li>
 					</ul>
 					<div class="label-rating">132 reviews</div>
@@ -82,7 +82,7 @@
 					<a (click)="sharePost(listing)" style="color:#28a745"> <mat-icon >screen_share</mat-icon> </a>
 
 				</p>
-				<a style="color:#007bff"><i class="fa fa-heart"></i><mat-icon>account_circle</mat-icon> {{listing.nameowner}}</a>
+				<a style="color:#007bff"><em class="fa fa-heart"></em><mat-icon>account_circle</mat-icon> {{listing.nameowner}}</a>
 			</div> <!-- action-wrap.// -->
 		</aside> <!-- col.// -->
 	</div> <!-- row.// -->

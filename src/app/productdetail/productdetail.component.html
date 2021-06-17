@@ -3,17 +3,17 @@
 		<aside class="col-sm-6 border-right">
 <article class="gallery-wrap">
 <div class="img-big-wrap">
-  <div> <a href="images/items/1.jpg" data-fancybox=""><img src="{{listingdetail.image[0]}}"></a></div>
+  <div> <a href="images/items/1.jpg" data-fancybox="" ><img src="{{listingdetail.image[0]}}" alt="Imagen Producto"></a></div>
 </div> <!-- slider-product.// -->
 <!--<div class="img-small-wrap">-->
 
 	 <div class="img-small-wrap">
 
 
-	 <div class="item-gallery"> <img src="{{listingdetail.image[0]}}"></div>
-	 <div class="item-gallery"> <img src="{{listingdetail.image[1]}}"></div>
-	 <div class="item-gallery"> <img src="{{listingdetail.image[2]}}"></div>
-	 <div class="item-gallery"> <img src="{{listingdetail.image[3]}}"></div>
+	 <div class="item-gallery"> <img src="{{listingdetail.image[0]}}" alt="Imagen Producto"></div>
+	 <div class="item-gallery"> <img src="{{listingdetail.image[1]}}" alt="Imagen Producto"></div>
+	 <div class="item-gallery"> <img src="{{listingdetail.image[2]}}" alt="Imagen Producto"></div>
+	 <div class="item-gallery"> <img src="{{listingdetail.image[3]}}" alt="Imagen Producto"></div>
 
 </div> <!-- slider-nav.// -->
 </article>
@@ -47,14 +47,14 @@
 
 	<ul class="rating-stars">
 		<li style="width:80%" class="stars-active">
-			<i class="fa fa-star"></i> <i class="fa fa-star"></i>
-			<i class="fa fa-star"></i> <i class="fa fa-star"></i>
-			<i class="fa fa-star"></i>
+			<em class="fa fa-star"></em> <em class="fa fa-star"></em>
+			<em class="fa fa-star"></em> <em class="fa fa-star"></em>
+			<em class="fa fa-star"></em>
 		</li>
 		<li>
-			<i class="fa fa-star"></i> <i class="fa fa-star"></i>
-			<i class="fa fa-star"></i> <i class="fa fa-star"></i>
-			<i class="fa fa-star"></i>
+			<em class="fa fa-star"></em> <em class="fa fa-star"></em>
+			<em class="fa fa-star"></em> <em class="fa fa-star"></em>
+			<em class="fa fa-star"></em>
 		</li>
 	</ul>
 	<div class="label-rating">{{listingdetail.views}} vistas</div>
@@ -76,7 +76,7 @@
 	</div> <!-- row.// -->
 	<hr>
 	<!--<a class="btn  btn-warning" (click)="openDialog($event, listingdetail)"> <i class="fa fa-envelope"></i> Contactar a {{listingdetail.nameowner}} </a>-->
-	<a class="btn  btn-warning" [routerLink]="['/misconversaciones',  listingdetail.objectid,listingdetail.owner,listingdetail.nameowner,this.user.username+':'+listingdetail.owner+':'+listingdetail.objectid  ]"> <i class="fa fa-envelope"></i> Contactar a {{listingdetail.nameowner}} </a>
+	<a class="btn  btn-warning" [routerLink]="['/misconversaciones',  listingdetail.objectid,listingdetail.owner,listingdetail.nameowner,this.user.username+':'+listingdetail.owner+':'+listingdetail.objectid  ]"> <em class="fa fa-envelope"></em> Contactar a {{listingdetail.nameowner}} </a>
 	<!--<a href="#" class="btn  btn-outline-warning"> Start Order </a>-->
 <!-- short-info-wrap .// -->
 </article> <!-- card-body.// -->
