@@ -1,0 +1,92 @@
+<main class="card">
+	<div class="row no-gutters">
+		<aside class="col-sm-6 border-right">
+<article class="gallery-wrap">
+<div class="img-big-wrap">
+  <div> <a href="images/items/1.jpg" data-fancybox=""><img src="{{listingdetail.image[0]}}"></a></div>
+</div> <!-- slider-product.// -->
+<!--<div class="img-small-wrap">-->
+
+	 <div class="img-small-wrap">
+
+
+	 <div class="item-gallery"> <img src="{{listingdetail.image[0]}}"></div>
+	 <div class="item-gallery"> <img src="{{listingdetail.image[1]}}"></div>
+	 <div class="item-gallery"> <img src="{{listingdetail.image[2]}}"></div>
+	 <div class="item-gallery"> <img src="{{listingdetail.image[3]}}"></div>
+
+</div> <!-- slider-nav.// -->
+</article>
+</aside>
+		<aside class="col-sm-6">
+<article class="card-body">
+<!-- short-info-wrap -->
+	<h3 class="title mb-3">{{listingdetail.name}}</h3>
+	<h3 class="title mb-3">{{listingdetail.nameowner}}</h3>
+
+<div class="mb-3">
+	<var class="price h3 text-warning">
+		<span class="currency">US $</span><span class="num" >{{listingdetail.saleprice}}</span>
+	</var>
+
+</div> <!-- price-detail-wrap .// -->
+<dl>
+  <dt>Description</dt>
+  <dd><p>{{listingdetail.shortdescription}} </p></dd>
+</dl>
+<dl class="row">
+  <dt class="col-sm-3">Type</dt>
+  <dd class="col-sm-9_P">{{listingdetail.type}}</dd>
+
+  <dt class="col-sm-3">Categoria</dt>
+
+  <dd class="col-sm-9_P">{{ listingdetail.category}} </dd>
+
+</dl>
+<div class="rating-wrap">
+
+	<ul class="rating-stars">
+		<li style="width:80%" class="stars-active">
+			<i class="fa fa-star"></i> <i class="fa fa-star"></i>
+			<i class="fa fa-star"></i> <i class="fa fa-star"></i>
+			<i class="fa fa-star"></i>
+		</li>
+		<li>
+			<i class="fa fa-star"></i> <i class="fa fa-star"></i>
+			<i class="fa fa-star"></i> <i class="fa fa-star"></i>
+			<i class="fa fa-star"></i>
+		</li>
+	</ul>
+	<div class="label-rating">{{listingdetail.views}} vistas</div>
+</div> <!-- rating-wrap.// -->
+<hr>
+	<div class="row">
+		<div class="col-sm-5">
+			<dl class="dlist-inline">
+			  <dt>Cantidad: </dt>
+			  <dd>
+			  	<select class="form-control form-control-sm" style="width:70px;">
+			  		<option> 1 </option>
+
+			  	</select>
+			  </dd>
+			</dl>  <!-- item-property .// -->
+		</div> <!-- col.// -->
+
+	</div> <!-- row.// -->
+	<hr>
+	<!--<a class="btn  btn-warning" (click)="openDialog($event, listingdetail)"> <i class="fa fa-envelope"></i> Contactar a {{listingdetail.nameowner}} </a>-->
+	<a class="btn  btn-warning" [routerLink]="['/misconversaciones',  listingdetail.objectid,listingdetail.owner,listingdetail.nameowner,this.user.username+':'+listingdetail.owner+':'+listingdetail.objectid  ]"> <i class="fa fa-envelope"></i> Contactar a {{listingdetail.nameowner}} </a>
+	<!--<a href="#" class="btn  btn-outline-warning"> Start Order </a>-->
+<!-- short-info-wrap .// -->
+</article> <!-- card-body.// -->
+</aside> <!-- col.// -->
+	</div> <!-- row.// -->
+</main> <!-- card.// -->
+
+<article class="card mt-3">
+	<div class="card-body">
+		<h4>Detail overview</h4>
+	{{listingdetail.overview}}
+	</div> <!-- card-body.// -->
+</article> <!-- card.// -->

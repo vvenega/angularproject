@@ -1,0 +1,147 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Chat App Template</title>
+  <link type="css" rel="stylesheet" href="/src/assets/css/bootstrap.min.css">
+  <link type="css" rel="stylesheet" href="/src/assets/css/chat.css">
+</head>
+<body>
+  <div id="app" class="app">
+
+    <!-- LEFT SECTION -->
+
+    <section id="main-left" class="main-left">
+      <!-- header -->
+      <div id="header-left" class="header-left">
+        <span class="glyphicon glyphicon-menu-hamburger hamburger-btn"></span>
+        <span class="glyphicon glyphicon-search search-btn"></span>
+        <span class="glyphicon glyphicon-option-vertical option-btn"></span>
+      </div>
+
+      <!-- chat list -->
+      <div id="chat-list" class="chat-list">
+        <!-- user lists -->
+        <div id="friends" class="friends" *ngFor="let conversation of userConversations; let i = index">
+          <!-- photo -->
+          <div class="profile friends-photo"><mat-icon>account_circle</mat-icon>
+            <!--<img src="images/ava2.jpg" alt="">-->
+
+          </div>
+
+          <div class="friends-credent" >
+            <!-- name -->
+          <span class="friends-name" (click)="openConversation(conversation)">{{conversation.name}}</span>
+            <!-- last message -->
+            <span class="friends-message"><mat-icon (click)="details($event,conversation.objectid)">edit</mat-icon>Detalle</span>
+          </div>
+          <!-- notification badge -->
+          <span class="badge notif-badge">{{conversation.nummessages}}</span>
+        </div>
+
+
+      </div>
+
+      <!-- self-profile -->
+      <div id="chatsecundario-area" class="chat-area">
+        <div id="self-info" class="self-info" *ngFor="let incomingmessage of currentIincomingMessages; let i = index">
+
+          <div class="profile your-photo">
+            <img src="images/ava4.jpg" alt="">
+          </div>
+
+          <h4 class="name your-name" (click)="openConversationMessage(incomingmessage)">{{incomingmessage.message}}</h4>
+
+          <span class="glyphicon glyphicon-cog"></span>
+        </div>
+    </div>
+    </section>
+
+
+
+    <!-- RIGHT SECTION -->
+
+    <section id="main-right" class="main-right">
+      <!-- header -->
+      <div id="header-right" class="header-right">
+        <!-- profile pict -->
+        <div id="header-img" class="profile header-img">
+          <!--<img src="images/ava2.jpg" alt="">-->
+          <mat-icon>account_circle</mat-icon>
+        </div>
+
+        <!-- name -->
+        <h4 class="name friend-name">{{this.name}}</h4>
+
+        <!-- some btn -->
+        <div class="some-btn">
+        <!--  <span class="glyphicon glyphicon-facetime-video"></span>
+          <span class="glyphicon glyphicon-earphone"></span>
+          <span class="glyphicon glyphicon-option-vertical option-btn"></span>-->
+          </div>
+ <div>
+    <mat-icon style="font-size: 30px;"  (click)="makeVideoCall()">videocam</mat-icon>
+    &nbsp;&nbsp;&nbsp;
+    <mat-icon style="font-size: 30px;" (click)="endCallbyMe()">call_end</mat-icon>
+  </div>
+
+      </div>
+
+      <!-- chat area -->
+      <div id="chat-area" class="chat-area" *ngIf="!videocall">
+        <!-- chat content -->
+
+        <!-- FRIENDS CHAT TEMPLATE -->
+        <div *ngFor="let message of currentConversation; let i = index">
+          <div id="friends-chat" class="friends-chat" *ngIf="message.sender!=this.user.username">
+            <div class="profile friends-chat-photo">
+              <!--<img src="images/ava2.jpg" alt="">-->
+            </div>
+            <div class="friends-chat-content">
+            <p class="friends-chat-name"></p>
+              <p class="friends-chat-balloon">{{message.message}}</p>
+              <h5 class="chat-datetime">{{message.date}}</h5>
+            </div>
+          </div>
+
+
+          <!-- YOUR CHAT TEMPLATE -->
+          <div id="your-chat" class="your-chat" *ngIf="message.sender==this.user.username">
+            <p class="your-chat-balloon">{{message.message}}</p>
+            <p class="chat-datetime"><span class="glyphicon glyphicon-ok"></span> {{message.date}}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- typing area -->
+      <div id="typing-area" class="typing-area" *ngIf="!videocall">
+        <!-- input form -->
+        <input  [(ngModel)]="typing" class="type-area" placeholder="Escribe Algo...">
+        <!-- attachment btn -->
+        <div class="attach-btn">
+          <!--<span class="glyphicon glyphicon-paperclip file-btn"></span>
+          <span class="glyphicon glyphicon-camera"></span>
+          <span class="glyphicon glyphicon-picture"></span>-->
+        </div>
+        <!-- send btn -->
+        <!--<span class="glyphicon glyphicon-send send-btn" (click)="sendMessage()"></span>-->
+        <span (click)="sendMessage()">&nbsp;&nbsp;<p></p><mat-icon>send</mat-icon></span>
+      </div>
+
+      <div *ngIf="videocall" class="row" id="video-call">
+        <div class="col text-center">
+          <div id="video-wrapper">
+            <video #remoteVideo id="remote-video" poster="./assets/video-placeholder.jpg" autoplay playsinline></video>
+            <video #localVideo id="local-video" autoplay playsinline [muted]=true></video>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+
+</body>
+</html>

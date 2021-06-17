@@ -1,0 +1,118 @@
+
+<style>
+    li{
+		cursor: pointer;
+		color: #007bff;
+    }
+</style>
+<div class="card card-filter">
+	<article class="card-group-item">
+		<header class="card-header">
+			<a class="" aria-expanded="true" href="#" data-toggle="collapse" data-target="#collapse22">
+				<i class="icon-action fa fa-chevron-down"></i>
+				<h6 class="title">Por Categoria</h6>
+			</a>
+		</header>
+		<div style="" class="filter-content collapse show" id="collapse22">
+			<div class="card-body">
+				<form class="pb-3">
+				<div class="input-group">
+				  <input class="form-control" list="codes"  placeholder="Search" type="text" (change)="saveCode($event)">
+
+				  <datalist id="codes">
+                   <option *ngFor="let item of myCategories" [value]="item.category">
+
+					</option>
+                  </datalist>
+				  <div class="input-group-append">
+				    <button class="btn btn-primary" type="button"><i class="fa fa-search"></i></button>
+				  </div>
+				</div>
+				</form>
+
+				<ul class="list-unstyled list-lg">
+
+					<!--<li><a [routerLink]="['/listing',  myFeedListingsUserCategory.user,myFeedListingsUserCategory.category1  ]">{{myFeedListingsUserCategory.category1}} <span class="float-right badge badge-light round">{{myFeedListingsUserCategory.numberCategory1}}</span> </a></li>-->
+					<li><a (click)="openPage(myFeedListingsUserCategory.user,myFeedListingsUserCategory.category1)">{{myFeedListingsUserCategory.category1}} <span class="float-right badge badge-light round">{{myFeedListingsUserCategory.numberCategory1}}</span> </a></li>
+					<!-- <li><a [routerLink]="['/listing',  myFeedListingsUserCategory.user,myFeedListingsUserCategory.category2  ]">{{myFeedListingsUserCategory.category2}}  <span class="float-right badge badge-light round">{{myFeedListingsUserCategory.numberCategory2}}</span>  </a></li> -->
+					<li><a (click)="openPage(myFeedListingsUserCategory.user,myFeedListingsUserCategory.category2)">{{myFeedListingsUserCategory.category2}}  <span class="float-right badge badge-light round">{{myFeedListingsUserCategory.numberCategory2}}</span>  </a></li>
+					<!-- <li><a [routerLink]="['/listing',  myFeedListingsUserCategory.user,myFeedListingsUserCategory.category3  ]">{{myFeedListingsUserCategory.category3}} <span class="float-right badge badge-light round">{{myFeedListingsUserCategory.numberCategory3}}</span>  </a></li>-->
+					<li><a (click)="openPage(myFeedListingsUserCategory.user,myFeedListingsUserCategory.category3)">{{myFeedListingsUserCategory.category3}} <span class="float-right badge badge-light round">{{myFeedListingsUserCategory.numberCategory3}}</span>  </a></li>
+					<!--<li><a [routerLink]="['/listing',  myFeedListingsUserCategory.user,myFeedListingsUserCategory.category4  ]">{{myFeedListingsUserCategory.category4}} <span class="float-right badge badge-light round">{{myFeedListingsUserCategory.numberCategory4}}</span>  </a></li>-->
+					<li><a (click)="openPage(myFeedListingsUserCategory.user,myFeedListingsUserCategory.category4)">{{myFeedListingsUserCategory.category4}} <span class="float-right badge badge-light round">{{myFeedListingsUserCategory.numberCategory4}}</span>  </a></li>
+				</ul>
+			</div> <!-- card-body.// -->
+		</div> <!-- collapse .// -->
+	</article> <!-- card-group-item.// -->
+	<article class="card-group-item">
+		<header class="card-header">
+			<a href="#" data-toggle="collapse" data-target="#collapse33">
+				<i class="icon-action fa fa-chevron-down"></i>
+				<h6 class="title">Por Precio  </h6>
+			</a>
+		</header>
+		<div class="filter-content collapse show" id="collapse33">
+			<div class="card-body">
+			<input type="range" class="custom-range" min="0" max="{{myFeedListingsUserCategory.maxPrice}}" (change)="savePrice($event)">
+				<div class="form-row">
+				<div class="form-group col-md-6">
+				  <label>Min</label>
+				<input class="form-control" placeholder="${{myFeedListingsUserCategory.minPrice}}" type="number">
+				</div>
+				<div class="form-group text-right col-md-6">
+				  <label>Max</label>
+				<input class="form-control" placeholder="${{myFeedListingsUserCategory.maxPrice}}" type="number">
+				</div>
+				</div> <!-- form-row.// -->
+				<button class="btn btn-block btn-outline-primary" (click)="applyPrice()">Aplicar</button>
+			</div> <!-- card-body.// -->
+		</div> <!-- collapse .// -->
+	</article> <!-- card-group-item.// -->
+	<article class="card-group-item">
+		<header class="card-header">
+			<a href="#" data-toggle="collapse" data-target="#collapse44">
+				<i class="icon-action fa fa-chevron-down"></i>
+				<h6 class="title">Por Tipo </h6>
+			</a>
+		</header>
+		<code>{{updateFlags()}}</code>
+		<div class="filter-content collapse show" id="collapse44">
+			<div class="card-body">
+			<form>
+				<label class="form-check">
+				  <input class="form-check-input" [checked]="chlistings" type="checkbox"    (change)="updateListings($event)">
+				  <span class="form-check-label">
+				  <span class="float-right badge badge-light round">{{ myFeedListingsUserCategory.listings }}</span>
+				    Listing
+				  </span>
+				</label>  <!-- form-check.// -->
+				<label class="form-check">
+				  <input class="form-check-input" [checked]="chrentals" type="checkbox"  (change)="updateRent($event)">
+				  <span class="form-check-label">
+				  	<span class="float-right badge badge-light round">{{ myFeedListingsUserCategory.rent }}</span>
+				    Renta
+				  </span>
+				</label> <!-- form-check.// -->
+				<label class="form-check">
+
+				<input class="form-check-input"  type="checkbox" [checked]="chdonations" (change)="updateDonations($event)">
+				  <span class="form-check-label">
+				  	<span class="float-right badge badge-light round">{{ myFeedListingsUserCategory.donation }}</span>
+				    Donaciones
+				  </span>
+				</label>  <!-- form-check.// -->
+
+				<label class="form-check">
+
+				<input class="form-check-input"  type="checkbox" [checked]="chexchange" (change)="updateExchange($event)">
+				  <span class="form-check-label">
+				  	<span class="float-right badge badge-light round">{{ myFeedListingsUserCategory.exchange }}</span>
+				    Intercambios
+				  </span>
+				</label>  <!-- form-check.// -->
+
+			</form>
+			</div> <!-- card-body.// -->
+        </div> <!-- collapse .// -->
+        	</article> <!-- card-group-item.// -->
+</div> <!-- card.// -->

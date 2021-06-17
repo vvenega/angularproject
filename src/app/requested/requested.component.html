@@ -1,0 +1,72 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<div><strong>Productos que he solicitado</strong></div>
+<mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+      <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+
+
+
+        <ng-container matColumnDef="groupHeader">
+        <mat-cell *matCellDef="let group">
+          <mat-icon *ngIf="group.expanded">expand_less</mat-icon>
+          <mat-icon *ngIf="!group.expanded">expand_more</mat-icon>
+          <strong>{{group.group}}</strong>
+        </mat-cell>
+      </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+      <mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup" (click)="groupHeaderClick(row)">
+
+      </mat-row>
+
+      <ng-container matColumnDef="namerequester">
+        <mat-header-cell *matHeaderCellDef> Producto: </mat-header-cell>
+        <mat-cell *matCellDef="let element" > <mat-icon (click)="openDialog($event, element)">edit
+
+        </mat-icon>
+        {{element.product}}
+        </mat-cell>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="mobile">
+        <mat-header-cell *matHeaderCellDef> Precio </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.price}} </mat-cell>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef> Fecha Requerido </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.daterequested}} </mat-cell>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="saw">
+        <mat-header-cell *matHeaderCellDef> Mensaje Visto </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <mat-icon *ngIf="element.red">check_circle_outline</mat-icon>
+          <mat-icon *ngIf="!element.red">highlight_off</mat-icon>
+        </mat-cell>
+      </ng-container>
+
+
+      <ng-container matColumnDef="red">
+        <mat-header-cell *matHeaderCellDef> Fecha Visto </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+         {{element.datered}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="sold">
+        <mat-header-cell *matHeaderCellDef> Vendido </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <mat-icon *ngIf="element.sold">check_circle_outline</mat-icon>
+          <mat-icon *ngIf="!element.sold">highlight_off</mat-icon>
+        </mat-cell>
+      </ng-container>
+
+
+
+    </mat-table>
