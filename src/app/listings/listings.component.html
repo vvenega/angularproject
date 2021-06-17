@@ -9,6 +9,11 @@
 
 <br>
 
+<div class="loading-indicator" *ngIf="isSpinnerVisible()">
+<mat-progress-spinner mode="indeterminate" >
+</mat-progress-spinner>
+</div>
+
 <div *ngFor="let listing of myFeedListings; let i = index">
 <article class="card card-product">
 	<div class="card-body">

@@ -21,6 +21,7 @@ export class ApplicationsComponent implements OnInit {
   HIDE_ALL:string="";
   detailsClicked:boolean=false;
   private _event:any="";
+  private isVisible:boolean=true;
 
 
   //public dataSource: (ProductRequested | Group)[];
@@ -40,6 +41,7 @@ export class ApplicationsComponent implements OnInit {
     this.productrequestedservice.getProductsApplications(this.owner.username).subscribe(data => {
 
       this.dataSource.data=data;
+      this.isVisible=false;
       //this.dataSource.filterPredicate = this.customFilterPredicate.bind(this);
 
        this.dataSource.filterPredicate = (data, filter) => {
@@ -118,6 +120,11 @@ dialogConfig.data= { trigger: target,product: product };
   details(event: MouseEvent):void{
     this.detailsClicked=true;
     this._event=event;
+  }
+
+
+  isSpinnerVisible(){
+    return this.isVisible;
   }
 
 

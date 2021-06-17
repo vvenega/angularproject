@@ -3,6 +3,13 @@
 &nbsp;
 &nbsp;
 &nbsp;
+
+<div class="loading-indicator" *ngIf="isSpinnerVisible()">
+<mat-progress-spinner mode="indeterminate" >
+</mat-progress-spinner>
+</div>
+
+
 <div>
 <label for="button" [routerLink]="['/miscargas']">Mis Cargas</label>
 </div>

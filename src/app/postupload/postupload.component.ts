@@ -12,6 +12,7 @@ import { LoginService } from 'src/servicios/login.service';
 export class PostuploadComponent implements OnInit {
 
   user:User=new User();
+  private isVisible:boolean=false;
 
   constructor(private fileservice:FileserviceService,private loginService:LoginService) {
     this.user=this.loginService.getSession();
@@ -23,10 +24,13 @@ export class PostuploadComponent implements OnInit {
 
   uploadToServer(){
 
+    this.isVisible=true;
     this.fileservice.uploadtoserver(this.files,this.user.username).subscribe((res:any)=>{
         console.log(res.body);
-        if(res.body!=undefined && res.body=='succesfull')
+        if(res.body!=undefined && res.body=='succesfull'){
+         this.isVisible=false;
          alert('Se cargaron los archivos con Exito');
+       }
 
       });
   }
@@ -111,6 +115,10 @@ export class PostuploadComponent implements OnInit {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
   }
 
+
+  isSpinnerVisible(){
+    return this.isVisible;
+  }
 
 
 }

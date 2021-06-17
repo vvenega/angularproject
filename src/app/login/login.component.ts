@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
   public username:string="";
   public contrasenia:string="";
   public user:User=new User();
+  private isVisible:boolean=false;
 
 
 
@@ -29,10 +30,12 @@ export class LoginComponent implements OnInit {
   }
 
      enviar() {
+       this.isVisible=true;
         this.loginService.cancelChatStreaming();
         this.loginService.validateUser(this.username,this.contrasenia).subscribe(data => {
 
           this.user = data;
+          this.isVisible=false;
 
           if(this.user!=null && this.user.valid){
           this.loginService.getLoggedInName.emit('Bienvenido '+this.user.name);
@@ -52,6 +55,10 @@ export class LoginComponent implements OnInit {
 
 
 
+    }
+
+    isSpinnerVisible(){
+      return this.isVisible;
     }
 
 }

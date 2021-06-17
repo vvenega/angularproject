@@ -20,6 +20,7 @@ export class RequestedComponent implements OnInit {
   requester:User=new User();
   displayedColumns: string[] = ['namerequester', 'email', 'mobile', 'saw','red','sold'];
   HIDE_ALL:string="";
+  private isVisible:boolean=true;
 
    public dataSource = new MatTableDataSource<ProductRequested | Group>([])
 
@@ -39,6 +40,7 @@ export class RequestedComponent implements OnInit {
     this.productrequestedservice.getProductsRequested(this.requester.username).subscribe(data => {
 
       this.dataSource.data=data;
+      this.isVisible=false;
       //alert(data[3].product);
 
        this.dataSource.filterPredicate = (data, filter) => {
@@ -88,6 +90,10 @@ groupHeaderClick(row:any) {
 
    dialogConfig.data= { trigger: target,prequested: product,eventname:'DETAIL_VIEW_REQUESTER',showsold:false };
    const dialogRef = this.dialog.open(ProductcardComponent, dialogConfig);
+  }
+
+  isSpinnerVisible(){
+    return this.isVisible;
   }
 
 

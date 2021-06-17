@@ -18,6 +18,7 @@ export class ListingsComponent implements OnInit {
   category: string="";
   price: number=0;
   public event:string="normal";
+  isVisible:boolean=true;
 
 
 
@@ -45,13 +46,13 @@ export class ListingsComponent implements OnInit {
 
 
       if((this.category==null || this.category=='N-A') && this.price==null){
-     this.listingservice.getListings(this.user.username,this.user.ecommunities,this.user.types).subscribe(data => {this.myFeedListings = data;});
+     this.listingservice.getListings(this.user.username,this.user.ecommunities,this.user.types).subscribe(data => {this.myFeedListings = data;this.isVisible=false;});
       }
     else{
      if(this.category!=null && this.category!='N-A')
-      this.listingservice.getListingsCategory(this.user.username,this.category,this.user.ecommunities,this.user.types).subscribe(data => {this.myFeedListings = data;});
+      this.listingservice.getListingsCategory(this.user.username,this.category,this.user.ecommunities,this.user.types).subscribe(data => {this.myFeedListings = data;this.isVisible=false;});
      else if(this.price!=null)
-      this.listingservice.getListingsPrice(this.user.username,this.price).subscribe(data => {this.myFeedListings = data;});
+      this.listingservice.getListingsPrice(this.user.username,this.price).subscribe(data => {this.myFeedListings = data;this.isVisible=false;});
     }
     });
 
@@ -100,6 +101,10 @@ dialogConfig.data= { trigger: target,dataKey: listing,view:false, contact:true }
   sharePost(listing:Listing):void{
     //alert(listing.category);
     this.listingservice.sharePost(listing,this.user.username);
+  }
+
+  isSpinnerVisible(){
+    return this.isVisible;
   }
 
 

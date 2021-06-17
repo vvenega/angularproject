@@ -46,6 +46,8 @@ export class ChatroomsComponent implements OnInit {
   public currentIincomingMessages:Message[]=[];
   public userConversations: UserConversation[]=[];
 
+  private isVisible:boolean=true;
+
    //Video Call ---------------------------------------------------------
 
   public isCallStarted$: Observable<boolean>=new Observable<true>();
@@ -174,7 +176,7 @@ export class ChatroomsComponent implements OnInit {
     this.channel= 'mychannel_'+this.user.username;
 
 
-    this.chatService.getConversations(this.user.username).subscribe(data => {this.userConversations = data; });
+    this.chatService.getConversations(this.user.username).subscribe(data => {this.userConversations = data; this.isVisible=false;});
 
     this.initializeWebSocketConnection();
 
@@ -259,7 +261,7 @@ export class ChatroomsComponent implements OnInit {
   }
 
   makeVideoCall():void{
-
+    this.isVisible=true;
     this.startStreamingObjects();
     this.event='videocall';
     this.sendMessage();
@@ -280,11 +282,12 @@ export class ChatroomsComponent implements OnInit {
 
     this.callService.remoteStream$
       .pipe(filter(res => !!res))
-      .subscribe(stream => this.remoteVideo.nativeElement.srcObject = stream)
+      .subscribe(stream => {this.remoteVideo.nativeElement.srcObject = stream; this.isVisible=false;})
   }
 
   public processRequestVideoCall(pid:string){
 
+    this.isVisible=true;
     this.startStreamingObjects();
     of(this.callService.establishMediaCall(pid)).subscribe(_  => { this.videocall=true });
     of(this.callService.enableCallAnswer()).subscribe(_  => { });
@@ -344,6 +347,11 @@ export class ChatroomsComponent implements OnInit {
 
   ngOnDestroy(): void {
 
+    }
+
+
+    isSpinnerVisible(){
+      return this.isVisible;
     }
 
 

@@ -15,6 +15,7 @@ export class MiscargasComponent implements OnInit {
 
   displayedColumns: string[] = ['date', 'filename', 'status','outputfile'];
   user:User=new User();
+  private isVisible:boolean=true;
   //public myloads: FileLoad[];
   public dataSource = new MatTableDataSource<FileLoad>([])
 
@@ -25,6 +26,7 @@ export class MiscargasComponent implements OnInit {
     this.loginService.cancelChatStreaming();
     this.fileService.getFileLoads(this.user.username).subscribe(data => {
       this.dataSource.data=data;
+      this.isVisible=false;
     });
 
   }
@@ -40,6 +42,10 @@ export class MiscargasComponent implements OnInit {
         a.click();
         URL.revokeObjectURL(objectUrl);
       })
+  }
+
+  isSpinnerVisible(){
+    return this.isVisible;
   }
 
 }

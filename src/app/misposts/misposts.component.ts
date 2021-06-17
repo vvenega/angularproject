@@ -20,6 +20,7 @@ export class MispostsComponent implements OnInit {
   public myCategories: Category[]=[];
   public myFeedListings: Listing[]=[];
   user: User=new User();
+  private isVisible:boolean=true;
 
   constructor(private listingservice: ListingsService,private loginService:LoginService,private dialog:MatDialog,
     private kafkaService:KafkaService) { }
@@ -28,13 +29,13 @@ export class MispostsComponent implements OnInit {
 
     this.user=this.loginService.getSession();
     this.loginService.cancelChatStreaming();
-    this.listingservice.getUserCategories(this.user.username,this.user.ecommunities,this.user.types).subscribe(data => {this.myCategories = data;});
+    this.listingservice.getUserCategories(this.user.username,this.user.ecommunities,this.user.types).subscribe(data => {this.myCategories = data;this.isVisible=false;});
 
   }
 
   loadPosts(e:any):void{
     let category = e.target.value;
-    this.listingservice.getUserListingsCategory(this.user.username,category,this.user.ecommunities,this.user.types).subscribe(data => {this.myFeedListings = data;});
+    this.listingservice.getUserListingsCategory(this.user.username,category,this.user.ecommunities,this.user.types).subscribe(data => {this.myFeedListings = data;this.isVisible=false;});
 
   }
 
@@ -72,6 +73,10 @@ let product:ProductRequested=new ProductRequested();
 product.product=listing.name;
 dialogConfig.data= { trigger: target,product: product };
     //const dialogRef = this.dialog.open(MessagecardComponent, dialogConfig);
+  }
+
+  isSpinnerVisible(){
+    return this.isVisible;
   }
 
 }

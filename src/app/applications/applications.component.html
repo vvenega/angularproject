@@ -1,9 +1,16 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <div><strong>Productos que me han solicitado</strong></div>
+
+<div class="loading-indicator" *ngIf="isSpinnerVisible()">
+<mat-progress-spinner mode="indeterminate" >
+</mat-progress-spinner>
+</div>
+
 <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
       <!--- Note that these columns can be defined in any order.
             The actual rendered columns are set as a property on the row definition" -->
+
 
 
 
