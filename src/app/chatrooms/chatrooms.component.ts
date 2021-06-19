@@ -5,6 +5,7 @@ import { ChatService } from 'src/servicios/chat.service';
 import {RsocketService} from 'src/servicios/rsocket.service';
 import {User} from 'src/modelos/user.model';
 import {UserConversation} from 'src/modelos/userconversation.model';
+import {Chatter} from 'src/modelos/chatter.model';
 import {CallService} from 'src/servicios/call.service';
 import { Message } from 'src/modelos/message.model';
 import { map, tap, catchError, retry } from 'rxjs/operators';
@@ -15,7 +16,7 @@ import {ProductRequested} from 'src/modelos/productrequested.model'
 import { ProductcardComponent } from '../productcard/productcard.component';
 import { DialogData,VideocallComponent } from '../videocall/videocall.component';
 import { filter, switchMap } from 'rxjs/operators';
-
+import { MatTableDataSource } from '@angular/material/table';
 
 
 @Component({
@@ -45,8 +46,13 @@ export class ChatroomsComponent implements OnInit {
   public currentConversation: Message[]=[];
   public currentIincomingMessages:Message[]=[];
   public userConversations: UserConversation[]=[];
+  public dataSource = new MatTableDataSource<UserConversation | Chatter>([]);
+  public displayedColumns: string[] = ['objectid'];
 
   private isVisible:boolean=true;
+  private detailsClicked:boolean=false;
+  private _event:any="";
+  private HIDE_ALL='';
 
    //Video Call ---------------------------------------------------------
 
@@ -65,6 +71,8 @@ export class ChatroomsComponent implements OnInit {
     this.user = this.loginService.getSession();
     this.currentConversation=[];
     this.userConversations=[];
+    this.HIDE_ALL='HIDE_ALL';
+
 
     //this.currentConversation.push(JSON.parse(msg));
 
@@ -120,9 +128,9 @@ export class ChatroomsComponent implements OnInit {
 
 
                      if(this.name!=undefined && this.name==messageReceived.namesender){
-                       if(messageReceived.message!='@protocol_connect' && !messageReceived.message.startsWith('@protocol_videocall$')
+                       if(!messageReceived.message.startsWith('@protocol')) /*&& !messageReceived.message.startsWith('@protocol_videocall$')
                        && !messageReceived.message.startsWith('@protocol_answer_videocall$')
-                     && !messageReceived.message.startsWith('@protocol_finish_videocall$'))
+                     && !messageReceived.message.startsWith('@protocol_finish_videocall$'))*/
                         this.currentConversation.push(messageReceived);
                        else if(messageReceived.message.startsWith('@protocol_videocall$')){
 
@@ -176,7 +184,31 @@ export class ChatroomsComponent implements OnInit {
     this.channel= 'mychannel_'+this.user.username;
 
 
-    this.chatService.getConversations(this.user.username).subscribe(data => {this.userConversations = data; this.isVisible=false;});
+    this.chatService.getConversations(this.user.username).subscribe(data => {
+      //this.userConversations = data;
+      this.dataSource.data=data;
+      console.log(data);
+      this.isVisible=false;
+
+      this.dataSource.filterPredicate = (data, filter) => {
+        if(data.name==undefined)
+         return true;
+      else{
+
+     const dataStr = data.name;
+
+     if(dataStr.indexOf(filter) == 0){
+       data.visible=!data.visible;
+       return data.visible;
+     }else
+       return data.visible;
+
+      }
+   }
+
+    this.dataSource.filter=this.HIDE_ALL;
+
+    });
 
     this.initializeWebSocketConnection();
 
@@ -247,18 +279,6 @@ export class ChatroomsComponent implements OnInit {
 
   }
 
-  details(event: MouseEvent,objectid:string):void{
-    const target = new ElementRef(event.currentTarget);
-      const dialogConfig = new MatDialogConfig();
-
-      //this.listingservice.setEvent(this.owner.username,row.price,)
-      //this.listingservice.setEventProductRequested(row.objectid,row.requester,this.owner.username,'PRODUCT_REQUESTED_VIEWED_BY_OWNER');
-    let prequested:ProductRequested=new ProductRequested();
-    prequested.objectid=parseInt(objectid);
-    prequested.price=0;
-    dialogConfig.data= { trigger: target,prequested: prequested,eventname:'DETAIL_VIEW_CHAT',showsold:false };
-    const dialogRef = this.dialog.open(ProductcardComponent, dialogConfig);
-  }
 
   makeVideoCall():void{
     this.isVisible=true;
@@ -353,6 +373,32 @@ export class ChatroomsComponent implements OnInit {
     isSpinnerVisible(){
       return this.isVisible;
     }
+
+    isGroup(index:any, item:any): boolean{
+          return item.group;
+        }
+
+        groupHeaderClick(row:any) {
+           row.expanded = !row.expanded;
+
+           this.dataSource.filter = row.group;
+
+          }
+
+          detailsChatter(event: MouseEvent,objectid:string):void{
+
+
+            const target = new ElementRef(event.currentTarget);
+              const dialogConfig = new MatDialogConfig();
+
+                let prequested:ProductRequested=new ProductRequested();
+              prequested.objectid=parseInt(objectid);
+              prequested.price=0;
+            dialogConfig.data= { trigger: target,prequested: prequested,eventname:'DETAIL_VIEW_APPLICATIONS',showsold:false };
+            const dialogRef = this.dialog.open(ProductcardComponent, dialogConfig);
+
+
+          }
 
 
 }

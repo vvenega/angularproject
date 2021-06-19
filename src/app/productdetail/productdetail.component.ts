@@ -18,6 +18,7 @@ export class ProductdetailComponent implements OnInit {
   objectid: string="";
   owner: string="";
   user: User=new User();
+  public event:string="normal";
 
   public listingdetail:ListingDetail=new ListingDetail();
 

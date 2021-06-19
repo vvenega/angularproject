@@ -17,7 +17,7 @@
   <mat-progress-spinner mode="indeterminate" >
   </mat-progress-spinner>
   </div>
-  
+
   <div id="app" class="app">
 
     <!-- LEFT SECTION -->
@@ -32,24 +32,47 @@
 
       <!-- chat list -->
       <div id="chat-list" class="chat-list">
-        <!-- user lists -->
-        <div id="friends" class="friends" *ngFor="let conversation of userConversations; let i = index">
-          <!-- photo -->
-          <div class="profile friends-photo"><mat-icon>account_circle</mat-icon>
-            <!--<img src="images/ava2.jpg" alt="">-->
 
-          </div>
+        <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-          <div class="friends-credent" >
-            <!-- name -->
-          <span class="friends-name" (click)="openConversation(conversation)">{{conversation.name}}</span>
-            <!-- last message -->
-            <span class="friends-message"><mat-icon (click)="details($event,conversation.objectid)">edit</mat-icon>Detalle</span>
-          </div>
-          <!-- notification badge -->
-          <span class="badge notif-badge">{{conversation.nummessages}}</span>
-        </div>
+              <!--- Note that these columns can be defined in any order.
+                    The actual rendered columns are set as a property on the row definition" -->
 
+
+
+
+                <ng-container matColumnDef="groupHeader">
+                <mat-cell *matCellDef="let group">
+                  <mat-icon *ngIf="group.expanded">expand_less</mat-icon>
+                  <mat-icon *ngIf="!group.expanded">expand_more</mat-icon>
+                  <strong>{{group.group}}</strong>
+                  <!--<mat-icon (click)="detailsChatter($event)">edit</mat-icon>-->
+
+                </mat-cell>
+
+              </ng-container>
+                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                   <mat-row *matRowDef="let row; columns: displayedColumns">
+
+              </mat-row>
+
+            <mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup" (click)="groupHeaderClick(row)">
+
+            </mat-row>
+
+              <ng-container matColumnDef="objectid">
+                <mat-header-cell *matHeaderCellDef> Producto de Interes: </mat-header-cell>
+
+                <mat-cell *matCellDef="let element">
+                  <mat-icon (click)="detailsChatter($event,element.objectid)">edit</mat-icon>
+                  <em (click)="openConversation(element)">{{element.objectid}}</em>
+                </mat-cell>
+              </ng-container>
+
+
+            </mat-table>
+
+      
 
       </div>
 

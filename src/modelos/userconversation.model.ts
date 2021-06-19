@@ -8,5 +8,7 @@ export class UserConversation {
     nummessages: string="";
     objectid:string="";
     description:string="";
+    visible:boolean=false;
+    group:string="";
 
 }
