@@ -39,19 +39,6 @@
         </mat-cell>
       </ng-container>
 
-      <!-- Name Column -->
-      <ng-container matColumnDef="mobile">
-        <mat-header-cell *matHeaderCellDef> Celular </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.mobile}} </mat-cell>
-      </ng-container>
-
-      <!-- Weight Column -->
-      <ng-container matColumnDef="email">
-        <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
-      </ng-container>
-
-
       <ng-container matColumnDef="fecharequerido">
         <mat-header-cell *matHeaderCellDef> Fecha Requerido </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.daterequested}} </mat-cell>
@@ -59,8 +46,8 @@
 
       <!-- Symbol Column -->
       <ng-container matColumnDef="message">
-        <mat-header-cell *matHeaderCellDef> Mensaje </mat-header-cell>
-        <mat-cell *matCellDef="let element" > <mat-icon (click)="openDialog($event, element)"> message</mat-icon> </mat-cell>
+        <mat-header-cell *matHeaderCellDef> Conversacion </mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="seeConversation(element)"> <mat-icon > message</mat-icon> </mat-cell>
       </ng-container>
 
 

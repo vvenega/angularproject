@@ -5,7 +5,7 @@ import {User } from 'src/modelos/user.model';
 import {ProductRequested} from 'src/modelos/productrequested.model'
 import { MatTableDataSource } from '@angular/material/table';
 import {Group} from 'src/modelos/group.model'
-//import {MessagecardComponent} from '../messagecard/messagecard.component';
+import {Router} from '@angular/router';
 import { ProductcardComponent } from '../productcard/productcard.component';
 import { ProductrequestedService } from 'src/servicios/productrequested.service';
 
@@ -17,11 +17,13 @@ import { ProductrequestedService } from 'src/servicios/productrequested.service'
 export class ApplicationsComponent implements OnInit {
 
   owner:User=new User();
-  displayedColumns: string[] = ['namerequester', 'email', 'mobile','fecharequerido', 'message'];
+  //displayedColumns: string[] = ['namerequester', 'email', 'mobile','fecharequerido', 'message'];
+  displayedColumns: string[] = ['namerequester','fecharequerido', 'message'];
   HIDE_ALL:string="";
   detailsClicked:boolean=false;
   private _event:any="";
   private isVisible:boolean=true;
+  private event:string="openconversation";
 
 
   //public dataSource: (ProductRequested | Group)[];
@@ -29,7 +31,7 @@ export class ApplicationsComponent implements OnInit {
 
 
   constructor(private loginService:LoginService,
-    private productrequestedservice: ProductrequestedService,private dialog:MatDialog) {
+    private productrequestedservice: ProductrequestedService,private _router:Router,private dialog:MatDialog) {
       this.HIDE_ALL='HIDE_ALL';
       this.detailsClicked=false;
    }
@@ -94,10 +96,17 @@ groupHeaderClick(row:any) {
    row.expanded = !row.expanded;
    this.dataSource.filter = row.group;
 
+
    //alert(row.requester);
    //this.listingservice.setEventProductRequested(row.objectid,row.requester,this.owner.username,'PRODUCT_REQUESTED_VIEWED');
 
   }
+
+  }
+
+  seeConversation(product: ProductRequested){
+
+    this._router.navigate(['/misconversaciones',product.objectid,product.requester,product.namerequester,product.idConversation,0,product.product,this.event]);
 
   }
 

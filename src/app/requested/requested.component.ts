@@ -9,6 +9,7 @@ import { ProductcardComponent } from '../productcard/productcard.component';
 import { ProductrequestedService } from 'src/servicios/productrequested.service';
 import { ListingsService } from 'src/servicios/listings.service';
 import { KafkaService } from 'src/servicios/kafka.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-requested',
@@ -18,15 +19,16 @@ import { KafkaService } from 'src/servicios/kafka.service';
 export class RequestedComponent implements OnInit {
 
   requester:User=new User();
-  displayedColumns: string[] = ['namerequester', 'email', 'mobile', 'saw','red','sold'];
+  displayedColumns: string[] = ['namerequester', 'email', 'mobile','red','sold'];
   HIDE_ALL:string="";
   private isVisible:boolean=true;
+  private event:string="openconversation";
 
    public dataSource = new MatTableDataSource<ProductRequested | Group>([])
 
   constructor(private productrequestedservice: ProductrequestedService,private loginService:LoginService,
    private listingservice: ListingsService,private dialog:MatDialog,
-   private kafkaService:KafkaService) {
+   private kafkaService:KafkaService,private _router:Router) {
     this.HIDE_ALL='HIDE_ALL';
 
   }
@@ -96,5 +98,10 @@ groupHeaderClick(row:any) {
     return this.isVisible;
   }
 
+  seeConversation(product: ProductRequested){
+
+    this._router.navigate(['/misconversaciones',product.objectid,product.owner,product.nameowner,product.idConversation,0,product.product,this.event]);
+
+  }
 
 }

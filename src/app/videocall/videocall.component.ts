@@ -10,19 +10,15 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class VideocallComponent implements OnInit {
 
+  public accepted:boolean=true;
+  public rejected:boolean=false;
+
   constructor(
         public dialogRef: MatDialogRef<VideocallComponent>,
         @Inject(MAT_DIALOG_DATA) public data: DialogData,
         private _snackBar: MatSnackBar
     ) { }
 
-    public showCopiedSnackBar() {
-        this._snackBar.open('Peer ID Copied!', 'Hurrah', {
-        duration: 1000,
-        horizontalPosition: 'center',
-        verticalPosition: 'top'
-      });
-    }
 
   ngOnInit(): void {
   }
@@ -30,6 +26,6 @@ export class VideocallComponent implements OnInit {
 }
 
 export interface DialogData {
-    peerId: string | any;
-    joinCall: boolean | any
+    caller: string | any;
+    //joinCall: boolean | any
 }

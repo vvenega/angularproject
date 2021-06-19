@@ -17,7 +17,7 @@ export class ListingsComponent implements OnInit {
   user: User=new User();
   category: string="";
   price: number=0;
-  public event:string="normal";
+  public event:string="productrequested";
   isVisible:boolean=true;
 
 

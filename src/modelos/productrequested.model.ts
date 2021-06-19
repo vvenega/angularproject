@@ -20,5 +20,6 @@ export class ProductRequested {
     datesold:string="";
     nameowner:string="";
     group:string="";
+    idConversation:string="";
 
 }

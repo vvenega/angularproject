@@ -72,10 +72,6 @@ export class ChatroomsComponent implements OnInit {
     this.currentConversation=[];
     this.userConversations=[];
     this.HIDE_ALL='HIDE_ALL';
-
-
-    //this.currentConversation.push(JSON.parse(msg));
-
    }
 
    initializeWebSocketConnection(){
@@ -137,6 +133,7 @@ export class ChatroomsComponent implements OnInit {
                          let cad:string=messageReceived.message;
 
                          let pid:string= cad.substring(cad.indexOf('$')+1);
+                         //alert(pid);
                          this.processRequestVideoCall(pid);
 
                        }else if(messageReceived.message.startsWith('@protocol_answer_videocall$')){
@@ -151,7 +148,14 @@ export class ChatroomsComponent implements OnInit {
                          this.endCall();
                          alert("Llamada Finalizada por Interlocutor.")
 
+                       }else if(messageReceived.message.startsWith('@protocol_reject_videocall$')){
+
+                         this.isVisible=false;
+                         //this.endCall();
+                         alert("Llamada Rechazada por Interlocutor.")
+
                        }
+
                      }else{
                         messageReceived.message=messageReceived.namesender+" dice:"+ messageReceived.message;
                         this.currentIincomingMessages.push(messageReceived);
@@ -180,6 +184,7 @@ export class ChatroomsComponent implements OnInit {
     this.id=this.activatedRoute.snapshot.paramMap.get("id") || '';
     this.price=this.activatedRoute.snapshot.paramMap.get("price") || '0';
     this.product=this.activatedRoute.snapshot.paramMap.get("product") || '';
+    this.event=this.activatedRoute.snapshot.paramMap.get("event") || '';
 
     this.channel= 'mychannel_'+this.user.username;
 
@@ -212,9 +217,25 @@ export class ChatroomsComponent implements OnInit {
 
     this.initializeWebSocketConnection();
 
+    if(this.event!=undefined && this.event=='productrequested'){
+      //Agregar Streaming to Kafka ProductRequested
+      this.kafkaService.setChat(this.receiver,this.name,this.user.username,
+        this.user.name,this.product,this.price,this.objectid,this.id);
+    }else if(this.event!=undefined && this.event=='openconversation'){
+
+      let conversation:UserConversation=new UserConversation();
+      conversation.username=this.receiver;
+      conversation.idConversation=this.id;
+      conversation.name=this.name;
+      conversation.objectid=this.objectid;
+      this.openConversation(conversation);
+
+    }
+
+
     this.event='connect';
     this.sendMessage();
-    this.event=this.activatedRoute.snapshot.paramMap.get("event") || '';
+    this.event='normal';
 
 
   }
@@ -240,15 +261,11 @@ export class ChatroomsComponent implements OnInit {
        message.message='@protocol_answer_videocall$'+this.peerId;
     else if(this.event=='finish_videocall')
        message.message='@protocol_finish_videocall$';
+    else if(this.event=='reject_videocall')
+       message.message='@protocol_reject_videocall$';
     else{
       message.message=this.typing;
       this.currentConversation.push(message);
-    }
-
-    if(this.event!=undefined && this.event=='connect'){
-      //Agregar Streaming to Kafka ProductRequested
-      this.kafkaService.setChat(this.receiver,this.name,this.user.username,
-        this.user.name,this.product,this.price,this.objectid,this.id);
     }
 
 
@@ -283,6 +300,7 @@ export class ChatroomsComponent implements OnInit {
   makeVideoCall():void{
     this.isVisible=true;
     this.startStreamingObjects();
+    //alert(this.peerId);
     this.event='videocall';
     this.sendMessage();
     this.event='normal';
@@ -307,14 +325,7 @@ export class ChatroomsComponent implements OnInit {
 
   public processRequestVideoCall(pid:string){
 
-    this.isVisible=true;
-    this.startStreamingObjects();
-    of(this.callService.establishMediaCall(pid)).subscribe(_  => { this.videocall=true });
-    of(this.callService.enableCallAnswer()).subscribe(_  => { });
-
-    this.event='answer_videocall';
-    this.sendMessage();
-    this.event='normal';
+    this.showModal(this.name,pid);
 
   }
 
@@ -328,20 +339,29 @@ export class ChatroomsComponent implements OnInit {
   }
 
 
-  public showModal(joinCall: boolean): void {
-    let dialogData: DialogData = joinCall ? ({ peerId: null, joinCall: true }) : ({ peerId: this.peerId, joinCall: false });
+  private acceptedCall(pid:string){
+    this.isVisible=true;
+    this.startStreamingObjects();
+    //alert(pid);
+    of(this.callService.establishMediaCall(pid)).subscribe(_  => { this.videocall=true });
+    of(this.callService.enableCallAnswer()).subscribe(_  => { });
+
+    this.event='answer_videocall';
+    this.sendMessage();
+    this.event='normal';
+  }
+
+
+  public showModal(caller:string,pid:string): void {
+    let dialogData: DialogData =({ caller: this.name});
     const dialogRef = this.dialog.open(VideocallComponent, {
-      width: '250px',
+      width: '350px',
       data: dialogData
     });
 
     dialogRef.afterClosed()
-      .pipe(
-        switchMap(peerId =>
-          joinCall ? of(this.callService.establishMediaCall(peerId)) : of(this.callService.enableCallAnswer())
-        ),
-      )
-      .subscribe(_  => { });
+      .subscribe(callAnswer =>
+        callAnswer ? this.acceptedCall(pid) : this.rejectCall());
   }
 
   private endCall() {
@@ -360,6 +380,12 @@ export class ChatroomsComponent implements OnInit {
  public endCallbyMe(){
    this.endCall();
    this.event='finish_videocall';
+   this.sendMessage();
+   this.event='normal';
+ }
+
+ public rejectCall(){
+   this.event='reject_videocall';
    this.sendMessage();
    this.event='normal';
  }

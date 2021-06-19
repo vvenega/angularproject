@@ -49,19 +49,19 @@
       </ng-container>
 
       <!-- Symbol Column -->
-      <ng-container matColumnDef="saw">
+      <!--<ng-container matColumnDef="saw">
         <mat-header-cell *matHeaderCellDef> Mensaje Visto </mat-header-cell>
         <mat-cell *matCellDef="let element">
           <mat-icon *ngIf="element.red">check_circle_outline</mat-icon>
           <mat-icon *ngIf="!element.red">highlight_off</mat-icon>
         </mat-cell>
-      </ng-container>
+      </ng-container>-->
 
 
       <ng-container matColumnDef="red">
-        <mat-header-cell *matHeaderCellDef> Fecha Visto </mat-header-cell>
-        <mat-cell *matCellDef="let element">
-         {{element.datered}}
+        <mat-header-cell *matHeaderCellDef> Conversacion </mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="seeConversation(element)">
+         <mat-icon > message</mat-icon> 
         </mat-cell>
       </ng-container>
 
